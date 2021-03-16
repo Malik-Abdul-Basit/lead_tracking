@@ -118,6 +118,50 @@ $last_five_year = round($current_year - 5);
                     </div>
                     <div class="d-flex flex-column-fluid">
                         <div class="container">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <div class="card-header pt-6">
+                                            <div class="col-sm-9 my-2 my-md-0"></div>
+                                            <div class="col-sm-3 my-2 my-md-0">
+                                                <div class="form-group">
+                                                    <label class="font-weight-bold" for="BG_CurrentYear">Year</label>
+                                                    <select class="form-control"
+                                                            id="BG_CurrentYear"
+                                                            onchange="callMonthlyLeadsData()">
+                                                        <?php
+                                                        for ($y = $starting_year; $y <= $current_year; $y++) {
+                                                            $s = ($y == $current_year) ? 'selected="selected"' : '';
+                                                            echo '<option value="' . $y . '" ' . $s . '>' . $y . '</option>';
+                                                        }
+                                                        //$months = array(1 => 'Jan.', 2 => 'Feb.', 3 => 'Mar.', 4 => 'Apr.', 5 => 'May', 6 => 'Jun.', 7 => 'Jul.', 8 => 'Aug.', 9 => 'Sep.', 10 => 'Oct.', 11 => 'Nov.', 12 => 'Dec.');
+                                                        //$transposed = array_slice($months, date('n'), 12, true) + array_slice($months, 0, date('n'), true);
+                                                        //$last8 = array_reverse(array_slice($transposed, -8, 12, true), true);
+                                                        /*foreach ($months as $num => $name) {
+                                                            printf('<option value="%u">%s</option>', $num, $name);
+                                                        }*/
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body d-flex flex-column px-2 py-4">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <div id="monthlyLeadsHistogramChartWrapper"
+                                                         class="HighChartWrapper"></div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div id="monthlyLeadsChartWrapper" class="HighChartWrapper"></div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-custom card-stretch gutter-b">
@@ -235,48 +279,6 @@ $last_five_year = round($current_year - 5);
                             </div>
 
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card card-custom card-stretch gutter-b">
-                                        <div class="card-header pt-6">
-                                            <div class="col-sm-9 my-2 my-md-0"></div>
-                                            <div class="col-sm-3 my-2 my-md-0">
-                                                <div class="form-group">
-                                                    <label class="font-weight-bold" for="BG_CurrentYear">Year</label>
-                                                    <select class="form-control"
-                                                            id="BG_CurrentYear"
-                                                            onchange="callMonthlyLeadsData()">
-                                                        <?php
-                                                        for ($y = $starting_year; $y <= $current_year; $y++) {
-                                                            $s = ($y == $current_year) ? 'selected="selected"' : '';
-                                                            echo '<option value="' . $y . '" ' . $s . '>' . $y . '</option>';
-                                                        }
-                                                        //$months = array(1 => 'Jan.', 2 => 'Feb.', 3 => 'Mar.', 4 => 'Apr.', 5 => 'May', 6 => 'Jun.', 7 => 'Jul.', 8 => 'Aug.', 9 => 'Sep.', 10 => 'Oct.', 11 => 'Nov.', 12 => 'Dec.');
-                                                        //$transposed = array_slice($months, date('n'), 12, true) + array_slice($months, 0, date('n'), true);
-                                                        //$last8 = array_reverse(array_slice($transposed, -8, 12, true), true);
-                                                        /*foreach ($months as $num => $name) {
-                                                            printf('<option value="%u">%s</option>', $num, $name);
-                                                        }*/
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body d-flex flex-column px-2 py-4">
-                                            <div class="row">
-                                                <div class="col-md-7">
-                                                    <div id="monthlyLeadsHistogramChartWrapper"
-                                                         class="HighChartWrapper"></div>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div id="monthlyLeadsChartWrapper" class="HighChartWrapper"></div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -313,9 +315,9 @@ include_once("../includes/footer_script.php");
                 'RangeEnd': BG_RangeEnd.value,
                 'CurrentYear': BG_CurrentYear.value,
             };
-            getYearlyLeadChartData(filter);
-            getSingleLeadChartData(filter);
             getMonthlyLeadsData(filter);
+            getSingleLeadChartData(filter);
+            getYearlyLeadChartData(filter);
         }
 
         function callYearlyLeadChartData() {
