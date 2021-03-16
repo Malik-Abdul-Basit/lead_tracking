@@ -653,24 +653,30 @@ include_once("../includes/mobile_menu.php");
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
-                                                                    <label>Phone No:
+                                                                    <label>* Mobile No:
                                                                         <small>
-                                                                            <a href="javascript:;">Example (041)
-                                                                                233-3333</a>
+                                                                            <a href="javascript:;">Example 300-777
+                                                                                8888</a>
                                                                         </small>
                                                                     </label>
+                                                                    <input tabindex="510" id="dial_code"
+                                                                           class="not-display" type="hidden"
+                                                                           value="<?php echo $dial_code; ?>">
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend"><span
-                                                                                    class="input-group-text"><i
-                                                                                        class="la la-phone"></i></span>
+                                                                                    class="input-group-text"
+                                                                                    id="mobile_no_flag"><?php echo $mobile_no_flag; ?></span>
                                                                         </div>
-                                                                        <input tabindex="135" maxlength="14" id="phone"
-                                                                               value="<?php echo $phone; ?>" <?php echo $TAttrs; ?>
-                                                                               placeholder="Phone No"/>
+                                                                        <input tabindex="140" maxlength="12" id="mobile"
+                                                                               value="<?php echo $mobile; ?>" <?php echo $TAttrs . $onblur; ?>
+                                                                               placeholder="Mobile No"/>
                                                                     </div>
+                                                                    <input tabindex="520" id="iso" class="not-display"
+                                                                           type="hidden"
+                                                                           value="<?php echo $iso; ?>">
                                                                     <div class="error_wrapper">
                                                                         <span class="text-danger"
-                                                                              id="errorMessagePhone"></span>
+                                                                              id="errorMessageMobile"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>

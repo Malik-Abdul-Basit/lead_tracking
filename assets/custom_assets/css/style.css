@@ -898,3 +898,8 @@ span.e-input-group.e-control-wrapper.e-date-wrapper span.e-input-group-icon.e-da
     height: 450px;
     max-width: 100% !important;
 }
+
+.lead-card-details .small {
+    font-size: 0.75rem;
+    color: #627D98;
+}

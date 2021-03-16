@@ -65,7 +65,7 @@ if (isset($_POST['postData'])) {
     } else if (!empty($phone) && (!validPhoneNumber($phone) || strlen($phone) != 14)) {
         echo json_encode(['code' => 422, 'errorField' => 'phone', 'errorDiv' => 'errorMessagePhone', 'errorMessage' => 'Invalid Phone number.']);
     } else if (!empty($fax) && (!validPhoneNumber($fax) || strlen($fax) != 14)) {
-        echo json_encode(['code' => 422, 'errorField' => 'fax', 'errorDiv' => 'errorMessageFax', 'errorMessage' => 'Special Characters are not Allowed.']);
+        echo json_encode(['code' => 422, 'errorField' => 'fax', 'errorDiv' => 'errorMessageFax', 'errorMessage' => 'Invalid Fax number.']);
     } else if (!empty($web) && !validURL($web)) {
         echo json_encode(['code' => 422, 'errorField' => 'web', 'errorDiv' => 'errorMessageWeb', 'errorMessage' => 'Invalid Web link.']);
     } else if ($status == '') {

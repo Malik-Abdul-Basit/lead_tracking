@@ -138,7 +138,8 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                 $data .= '<tr style="left:0" data-row="' . $row_number . '" class="datatable-row  datatable-row-' . $evenOrOdd . '">';
                 if (isset($filters->Numbering) && !empty($filters->Numbering) && sizeof($filters->Numbering) > 0) {
                     $sr = (object)$filters->Numbering;
-                    $sr_sort = (isset($sr->sort) && $sr->sort === "true") ? ' datatable-cell-sort' : '';
+                    //$sr_sort = (isset($sr->sort) && $sr->sort === "true") ? ' datatable-cell-sort' : '';
+                    $sr_sort = '';
                     $sr_text = (isset($sr->text) && !empty($sr->text)) ? ' datatable-cell-' . $sr->text : '';
                     $sr_style = (isset($sr->style) && !empty($sr->style)) ? $sr->style : '';
                     $data .= '<td data-field="' . $sr->field . '" class="datatable-cell' . $sr_sort . $sr_text . '">';
@@ -148,7 +149,8 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                 foreach ($filters->Header as $key => $value) {
                     $c = (object)$value;
                     $f = $result[$c->field];
-                    $c_sort = (isset($c->sort) && $c->sort === "true") ? ' datatable-cell-sort' : '';
+                    //$c_sort = (isset($c->sort) && $c->sort === "true") ? ' datatable-cell-sort' : '';
+                    $c_sort = '';
                     $c_text = (isset($c->text) && !empty($c->text)) ? ' datatable-cell-' . $c->text : '';
                     $c_style = (isset($c->style) && !empty($c->style)) ? $c->style : '';
                     $data .= '<td data-field="' . $c->field . '" class="datatable-cell' . $c_sort . $c_text . '">';
@@ -163,10 +165,11 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                 }
 
                 if (isset($filters->L)) {
-                    if (hasRight($filters->L, 'edit') || hasRight($filters->L, 'delete')) {
+                    if (hasRight($filters->L, 'edit')) {/* || hasRight($filters->L, 'delete') */
                         if (isset($filters->Actions) && !empty($filters->Actions) && sizeof($filters->Actions) > 0) {
                             $ac = (object)$filters->Actions;
-                            $ac_sort = (isset($ac->sort) && $ac->sort == "true") ? ' datatable-cell-sort' : '';
+                            //$ac_sort = (isset($ac->sort) && $ac->sort == "true") ? ' datatable-cell-sort' : '';
+                            $ac_sort = '';
                             $ac_text = (isset($ac->text) && !empty($ac->text)) ? ' datatable-cell-' . $ac->text : '';
                             $ac_style = (isset($ac->style) && !empty($ac->style)) ? $ac->style : '';
                             $data .= '<td data-field="' . $ac->field . '" class="datatable-cell' . $ac_sort . $ac_text . '">';
@@ -174,8 +177,8 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                             if (hasRight($filters->L, 'edit'))
                                 $data .= '<a href="' . $admin_url . 'company?id=' . $result['id'] . '" class="btn btn-sm btn-clean btn-icon" title="Edit"><i class="la la-edit"></i></a>';
 
-                            if (hasRight($filters->L, 'delete'))
-                                $data .= '<button type="button" onclick="entryDelete(' . $result['id'] . ')" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></button>';
+                            //if (hasRight($filters->L, 'delete'))
+                                //$data .= '<button type="button" onclick="entryDelete(' . $result['id'] . ')" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></button>';
 
                             $data .= '</span></td>';
                         }

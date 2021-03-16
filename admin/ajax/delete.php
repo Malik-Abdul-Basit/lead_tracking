@@ -7,7 +7,7 @@ $global_branch_id = $_SESSION['branch_id'];
 $global_user_id = $_SESSION['user_id'];
 global $db;
 
-if (isset($_POST['delete_company'])) {
+/*if (isset($_POST['delete_company'])) {
     if (hasRight('company', 'delete')) {
         $delete = htmlentities($_POST['delete_company']);
         $query = mysqli_query($db, "SELECT id FROM employees WHERE company_id='{$delete}' AND deleted_at IS NULL");
@@ -24,7 +24,7 @@ if (isset($_POST['delete_company'])) {
     } else {
         echo json_encode(["code" => 405, "toasterClass" => 'warning', "responseMessage" => 'Sorry! You have no right to delete record.']);
     }
-}
+}*/
 
 if (isset($_POST['delete_branch'])) {
     if (hasRight('branch', 'delete')) {
