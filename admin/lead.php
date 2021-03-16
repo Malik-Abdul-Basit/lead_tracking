@@ -250,12 +250,12 @@ include_once("../includes/mobile_menu.php");
 
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="business_name">* Business Name
+                                                                            <label for="business_name">* Business / Respondent Name
                                                                                 :</label>
                                                                             <input tabindex="60" maxlength="50"
                                                                                    id="business_name"
                                                                                    value="<?php echo $business_name; ?>" <?php echo $TAttrs . $onblur; ?>
-                                                                                   placeholder="Business Name"/>
+                                                                                   placeholder="Business / Respondent Name"/>
                                                                             <div class="error_wrapper">
                                                                         <span class="text-danger"
                                                                               id="errorMessageBusinessName"></span>
@@ -265,7 +265,7 @@ include_once("../includes/mobile_menu.php");
 
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label>* Email:</label>
+                                                                            <label> Email:</label>
                                                                             <input tabindex="70" id="email"
                                                                                    value="<?php echo $email; ?>" <?php echo $TAttrs . $onblur; ?>
                                                                                    placeholder="Email"/>
@@ -359,7 +359,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <label>* Mobile No:
+                                                                            <label> Mobile No:
                                                                                 <small>
                                                                                     <a href="javascript:;">Example
                                                                                         300-777
@@ -740,7 +740,7 @@ include_once("../includes/footer_script.php");
                 return false;
             } else if (business_name.value == '') {
                 business_name.style.borderColor = '#F00';
-                error = "Business Name field is required.";
+                error = "Business / Respondent Name field is required.";
                 toasterTrigger('error', error);
                 errorMessageBusinessName.innerText = error;
                 return false;
@@ -756,13 +756,13 @@ include_once("../includes/footer_script.php");
                 toasterTrigger('error', error);
                 errorMessageBusinessName.innerText = error;
                 return false;
-            } else if (email.value == '') {
+            }/* else if (email.value == '') {
                 email.style.borderColor = '#F00';
                 error = "Email field is required.";
                 toasterTrigger('error', error);
                 errorMessageEmail.innerText = error;
                 return false;
-            } else if (validEmail.test(email.value) == false) {
+            }*/ else if (email.value != '' && validEmail.test(email.value) == false) {
                 email.style.borderColor = '#F00';
                 error = "Invalid Email Address.";
                 toasterTrigger('error', error);
@@ -810,13 +810,13 @@ include_once("../includes/footer_script.php");
                 toasterTrigger('error', error);
                 errorMessageMobile.innerText = error;
                 return false;
-            } else if (mobile.value == '') {
+            } /*else if (mobile.value == '') {
                 mobile.style.borderColor = '#F00';
                 error = "Mobile No field is required.";
                 toasterTrigger('error', error);
                 errorMessageMobile.innerText = error;
                 return false;
-            } else if (validContactNumber.test(mobile.value) == false || mobile.value.length !== 12) {
+            }*/ else if (mobile.value != '' && (validContactNumber.test(mobile.value) == false || mobile.value.length !== 12)) {
                 mobile.style.borderColor = '#F00';
                 error = "Invalid Mobile No.";
                 toasterTrigger('error', error);

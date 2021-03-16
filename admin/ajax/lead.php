@@ -55,14 +55,14 @@ if (isset($_POST['postData'])) {
     } else if (!in_array($status, $status_array) || !is_numeric($status) || strlen($status) > 3) {
         echo json_encode(['code' => 422, 'errorField' => 'status', 'errorDiv' => 'errorMessageStatus', 'errorMessage' => 'Please select a valid option.']);
     } else if (empty($business_name)) {
-        echo json_encode(['code' => 422, 'errorField' => 'business_name', 'errorDiv' => 'errorMessageBusinessName', 'errorMessage' => 'Business Name field is required.']);
+        echo json_encode(['code' => 422, 'errorField' => 'business_name', 'errorDiv' => 'errorMessageBusinessName', 'errorMessage' => 'Business / Respondent Name field is required.']);
     } else if (!validName($business_name)) {
         echo json_encode(['code' => 422, 'errorField' => 'business_name', 'errorDiv' => 'errorMessageBusinessName', 'errorMessage' => 'Special Characters are not Allowed.']);
     } else if (strlen($business_name) > 50) {
         echo json_encode(['code' => 422, 'errorField' => 'business_name', 'errorDiv' => 'errorMessageBusinessName', 'errorMessage' => 'Length should not exceed 50.']);
-    } else if (empty($email)) {
+    } /*else if (empty($email)) {
         echo json_encode(['code' => 422, 'errorField' => 'email', 'errorDiv' => 'errorMessageEmail', 'errorMessage' => 'Email field is required.']);
-    } else if (!validEmail($email)) {
+    }*/ else if (!empty($email) && !validEmail($email)) {
         echo json_encode(['code' => 422, 'errorField' => 'email', 'errorDiv' => 'errorMessageEmail', 'errorMessage' => 'Invalid Email Address.']);
     } else if (empty($country_id)) {
         echo json_encode(['code' => 422, 'errorField' => 'country_id', 'errorDiv' => 'errorMessageCountry', 'errorMessage' => 'Country field is required.']);
@@ -78,9 +78,9 @@ if (isset($_POST['postData'])) {
         echo json_encode(['code' => 422, 'errorField' => 'city_id', 'errorDiv' => 'errorMessageCity', 'errorMessage' => 'Please select a valid option.']);
     } else if (empty($dial_code) || !is_numeric($dial_code) || strlen($dial_code) > 9) {
         echo json_encode(['code' => 422, 'errorField' => 'mobile', 'errorDiv' => 'errorMessageMobile', 'errorMessage' => 'Invalid country dial code.']);
-    } else if (empty($mobile)) {
+    } /*else if (empty($mobile)) {
         echo json_encode(['code' => 422, 'errorField' => 'mobile', 'errorDiv' => 'errorMessageMobile', 'errorMessage' => 'Mobile No field is required.']);
-    } else if (!validMobileNumber($mobile) || strlen($mobile) !== 12) {
+    }*/ else if (!empty($mobile) && (!validMobileNumber($mobile) || strlen($mobile) !== 12)) {
         echo json_encode(['code' => 422, 'errorField' => 'mobile', 'errorDiv' => 'errorMessageMobile', 'errorMessage' => 'Invalid Mobile number.']);
     } else if (empty($iso) || !validName($iso) || strlen($iso) > 3) {
         echo json_encode(['code' => 422, 'errorField' => 'mobile', 'errorDiv' => 'errorMessageMobile', 'errorMessage' => 'Invalid country iso.']);
