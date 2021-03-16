@@ -48,12 +48,22 @@ include_once("../includes/mobile_menu.php");
                                                         exit();
                                                     } else {
                                                         $Result = mysqli_fetch_object($Qry);
-                                                        $company = html_entity_decode(stripslashes($Result->company));
                                                         $date = html_entity_decode(stripslashes(date('d-m-Y', strtotime($Result->date))));
-                                                        $status = html_entity_decode(stripslashes($Result->status));
                                                         $user_id = html_entity_decode(stripslashes($Result->user_id));
                                                         $category_id = html_entity_decode(stripslashes($Result->category_id));
                                                         $sub_category_id = html_entity_decode(stripslashes($Result->sub_category_id));
+                                                        $status = html_entity_decode(stripslashes($Result->status));
+
+                                                        $business_name = html_entity_decode(stripslashes($Result->business_name));
+                                                        $email = html_entity_decode(stripslashes($Result->email));
+                                                        $country_id = html_entity_decode(stripslashes($Result->country_id));
+                                                        $state_id = html_entity_decode(stripslashes($Result->state_id));
+                                                        $city_id = html_entity_decode(stripslashes($Result->city_id));
+                                                        $dial_code = html_entity_decode(stripslashes($Result->dial_code));
+                                                        $mobile = html_entity_decode(stripslashes($Result->mobile));
+                                                        $iso = html_entity_decode(stripslashes($Result->iso));
+                                                        $phone = html_entity_decode(stripslashes($Result->phone));
+                                                        $fax = html_entity_decode(stripslashes($Result->fax));
                                                     }
                                                 } else {
                                                     if (!hasRight($user_right_title, 'add')) {
@@ -61,12 +71,18 @@ include_once("../includes/mobile_menu.php");
                                                         exit();
                                                     }
                                                     echo 'Add ' . ucwords(str_replace("_", " ", $page));
-                                                    $id = $user_id = $category_id = $sub_category_id = 0;
+                                                    $id = $user_id = $category_id = $sub_category_id = $state_id = $city_id = 0;
                                                     $date = date('d-m-Y');
-                                                    $company = $status = '';
+                                                    $status = 1;
+                                                    $business_name = $email = $mobile = $phone = $fax = '';
+                                                    $country_id = 166;
+                                                    $dial_code = '92';
+                                                    $iso = 'pk';
                                                 }
+                                                $mobile_no_flag = '<img class="mr-1" src="' . $ct_assets . 'images/flags/' . $iso . '.png">+' . $dial_code;
                                                 $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
                                                 $TAttrs = ' type="text" class="form-control" ';
+                                                $Select2 = ' class="form-control apply_select2" ';
                                                 $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
@@ -80,7 +96,10 @@ include_once("../includes/mobile_menu.php");
                                                     <div class="mb-2">
                                                         <div class="row">
                                                             <div class="col-md-12">
+
                                                                 <div class="row">
+
+                                                                    <!-- Date -->
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="date">* Date:</label>
@@ -96,27 +115,13 @@ include_once("../includes/mobile_menu.php");
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="company">* Company:</label>
-                                                                            <input tabindex="20" maxlength="50"
-                                                                                   id="company"
-                                                                                   value="<?php echo $company; ?>" <?php echo $TAttrs . $onblur; ?>
-                                                                                   placeholder="Company"/>
-                                                                            <div class="error_wrapper">
-                                                                        <span class="text-danger"
-                                                                              id="errorMessageCompany"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
 
-                                                                <div class="row">
+                                                                    <!-- Sales Person -->
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="user_id">* Sales Person:</label>
-                                                                            <select tabindex="30"
-                                                                                    id="user_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                            <select tabindex="20"
+                                                                                    id="user_id" <?php echo $Select2 . $onblur; ?>>
                                                                                 <option selected="selected" value="0">
                                                                                     Select
                                                                                 </option>
@@ -144,33 +149,16 @@ include_once("../includes/mobile_menu.php");
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status">* Status</label>
-                                                                            <select tabindex="40"
-                                                                                    id="status" <?php echo $TAttrs . $onblur; ?>>
-                                                                                <option value="0">Select</option>
-                                                                                <?php
-                                                                                foreach (config('leads.status.title') as $key => $val) {
-                                                                                    $selected = $status == $key ? 'selected="selected"' : '';
-                                                                                    echo '<option value="' . $key . '" ' . $selected . '>' . $val . '</option>';
-                                                                                }
-                                                                                ?>
-                                                                            </select>
-                                                                            <div class="error_wrapper">
-                                                                        <span class="text-danger"
-                                                                              id="errorMessageStatus"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
 
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
+
+                                                                    <!-- Category -->
+                                                                    <div class="col-md-4">
                                                                         <div class="form-group">
                                                                             <label for="category_id">* Category:</label>
-                                                                            <select tabindex="50"
-                                                                                    id="category_id" <?php echo $TAttrs . $onblur; ?>
+                                                                            <select tabindex="30"
+                                                                                    id="category_id" <?php echo $Select2 . $onblur; ?>
                                                                                     onchange="getSubCategory(this.value, <?php echo $sub_category_id; ?>)">
                                                                                 <option selected="selected" value="0">
                                                                                     Select
@@ -198,12 +186,14 @@ include_once("../includes/mobile_menu.php");
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+
+                                                                    <!-- Sub Category -->
+                                                                    <div class="col-md-4">
                                                                         <div class="form-group">
                                                                             <label for="sub_category_id">Sub
                                                                                 Category:</label>
-                                                                            <select tabindex="60" id="sub_category_id"
-                                                                                    class="form-control">
+                                                                            <select tabindex="40"
+                                                                                    id="sub_category_id" <?php echo $Select2; ?>>
                                                                                 <?php
                                                                                 if (!empty($category_id)) {
                                                                                     echo getSubCategories($category_id, $sub_category_id);
@@ -216,6 +206,241 @@ include_once("../includes/mobile_menu.php");
                                                                             <div class="error_wrapper">
                                                                                 <span class="text-danger"
                                                                                       id="errorMessageSubCategoryId"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Status -->
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label for="status">* Status</label>
+                                                                            <select tabindex="50"
+                                                                                    id="status" <?php echo $Select2 . $onblur; ?>>
+                                                                                <option value="0">Select</option>
+                                                                                <?php
+                                                                                foreach (config('leads.status.title') as $key => $val) {
+                                                                                    $selected = $status == $key ? 'selected="selected"' : '';
+                                                                                    echo '<option value="' . $key . '" ' . $selected . '>' . $val . '</option>';
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageStatus"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="separator separator-dashed my-10"></div>
+
+                                                <div class="mb-3">
+                                                    <h3 class="font-size-lg text-dark-75 font-weight-bold mb-10">
+                                                        Business Information :</h3>
+                                                    <div class="mb-2">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="business_name">* Business Name
+                                                                                :</label>
+                                                                            <input tabindex="60" maxlength="50"
+                                                                                   id="business_name"
+                                                                                   value="<?php echo $business_name; ?>" <?php echo $TAttrs . $onblur; ?>
+                                                                                   placeholder="Business Name"/>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageBusinessName"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>* Email:</label>
+                                                                            <input tabindex="70" id="email"
+                                                                                   value="<?php echo $email; ?>" <?php echo $TAttrs . $onblur; ?>
+                                                                                   placeholder="Email"/>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageEmail"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>* Select Country:</label>
+                                                                            <select tabindex="80"
+                                                                                    id="country_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                                <option selected="selected" value="">
+                                                                                    Select
+                                                                                </option>
+                                                                                <?php
+                                                                                $select = "SELECT * FROM `countries`";
+                                                                                $query = mysqli_query($db, $select);
+                                                                                if (mysqli_num_rows($query) > 0) {
+                                                                                    while ($result = mysqli_fetch_object($query)) {
+                                                                                        $selected = '';
+                                                                                        if ($country_id == $result->id) {
+                                                                                            $selected = 'selected="selected"';
+                                                                                        }
+                                                                                        ?>
+                                                                                        <option data-dial_code="<?php echo $result->dial_code; ?>"
+                                                                                                data-iso="<?php echo strtolower($result->iso); ?>" <?php echo $selected; ?>
+                                                                                                value="<?php echo $result->id; ?>"><?php echo $result->country_name; ?></option>
+                                                                                        <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageCountry"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>* Select State:</label>
+                                                                            <select tabindex="90"
+                                                                                    onchange="getCities(event)"
+                                                                                    id="state_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                                <?php
+                                                                                if (!empty($country_id)) {
+                                                                                    echo getStates($country_id, $state_id);
+                                                                                } else {
+                                                                                    echo '<option selected="selected" value="">Select
+                                                                        </option>';
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageState"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>* Select City:</label>
+                                                                            <select tabindex="100"
+                                                                                    id="city_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                                <?php
+                                                                                if (!empty($country_id) && !empty($state_id)) {
+                                                                                    echo getCities($state_id, $city_id);
+                                                                                } else {
+                                                                                    echo '<option selected="selected" value="">Select
+                                                                        </option>';
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageCity"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>* Mobile No:
+                                                                                <small>
+                                                                                    <a href="javascript:;">Example
+                                                                                        300-777
+                                                                                        8888</a>
+                                                                                </small>
+                                                                            </label>
+                                                                            <input tabindex="620" id="dial_code"
+                                                                                   class="not-display" type="hidden"
+                                                                                   value="<?php echo $dial_code; ?>">
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend"><span
+                                                                                            class="input-group-text"
+                                                                                            id="mobile_no_flag"><?php echo $mobile_no_flag; ?></span>
+                                                                                </div>
+                                                                                <input tabindex="120" maxlength="12"
+                                                                                       id="mobile"
+                                                                                       value="<?php echo $mobile; ?>" <?php echo $TAttrs . $onblur; ?>
+                                                                                       placeholder="Mobile No"/>
+                                                                            </div>
+                                                                            <input tabindex="720" id="iso"
+                                                                                   class="not-display"
+                                                                                   type="hidden"
+                                                                                   value="<?php echo $iso; ?>">
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageMobile"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>Phone No:
+                                                                                <small>
+                                                                                    <a href="javascript:;">Example (041)
+                                                                                        233-3333</a>
+                                                                                </small>
+                                                                            </label>
+
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend"><span
+                                                                                            class="input-group-text"><i
+                                                                                                class="la la-phone"></i></span>
+                                                                                </div>
+                                                                                <input tabindex="130" maxlength="14"
+                                                                                       id="phone"
+                                                                                       value="<?php echo $phone; ?>" <?php echo $TAttrs; ?>
+                                                                                       placeholder="Phone No"/>
+                                                                            </div>
+
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessagePhone"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label>Fax:
+                                                                                <small>
+                                                                                    <a href="javascript:;">Example (041)
+                                                                                        233-3333</a>
+                                                                                </small>
+                                                                            </label>
+
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend"><span
+                                                                                            class="input-group-text"><i
+                                                                                                class="fas fa-fax"></i></span>
+                                                                                </div>
+
+                                                                                <input tabindex="140" maxlength="14"
+                                                                                       id="fax"
+                                                                                       value="<?php echo $fax; ?>" <?php echo $TAttrs; ?>
+                                                                                       placeholder="Fax"/>
+                                                                            </div>
+                                                                            <div class="error_wrapper">
+                                                                        <span class="text-danger"
+                                                                              id="errorMessageFax"></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -377,6 +602,8 @@ include_once("../includes/footer_script.php");
 
             var validName = /[^a-zA-Z0-9-.@_&' ]/;
             var validDate = /^(0[1-9]|1\d|2\d|3[01])\-(0[1-9]|1[0-2])\-(19|20)\d{2}$/;
+            var validEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            var validContactNumber = /^[\-)( ]*([0-9]{3})[\-)( ]*([0-9]{3})[\-)( ]*([0-9]{4})$/;
             var validMesg = /[^a-zA-Z0-9+-._,@&#/' ]/;
 
             var statusArray = [<?php echo '"' . implode('","', array_values(config('leads.status.value'))) . '"' ?>];
@@ -386,14 +613,29 @@ include_once("../includes/footer_script.php");
 
             var id = document.getElementById('id');
             var date = document.getElementById('date');
-            var company = document.getElementById('company');
             var user_id = document.getElementById('user_id');
             var select2_user_id_container = document.querySelector("[aria-labelledby='select2-user_id-container']");
-            var status = document.getElementById('status');
             var category_id = document.getElementById('category_id');
             var select2_category_id_container = document.querySelector("[aria-labelledby='select2-category_id-container']");
             var sub_category_id = document.getElementById('sub_category_id');
             var select2_sub_category_id_container = document.querySelector("[aria-labelledby='select2-sub_category_id-container']");
+            var status = document.getElementById('status');
+            var select2_status_container = document.querySelector("[aria-labelledby='select2-status-container']");
+
+            var business_name = document.getElementById('business_name');
+            var email = document.getElementById('email');
+            var country_id = document.getElementById('country_id');
+            var select2_country_id_container = document.querySelector("[aria-labelledby='select2-country_id-container']");
+            var state_id = document.getElementById('state_id');
+            var select2_state_id_container = document.querySelector("[aria-labelledby='select2-state_id-container']");
+            var city_id = document.getElementById('city_id');
+            var select2_city_id_container = document.querySelector("[aria-labelledby='select2-city_id-container']");
+            var dial_code = document.getElementById('dial_code');
+            var mobile = document.getElementById('mobile');
+            var iso = document.getElementById('iso');
+            var phone = document.getElementById('phone');
+            var fax = document.getElementById('fax');
+
 
             if (sub_category_id.value != '' && isNaN(sub_category_id.value) === false && sub_category_id.value > 0 && sub_category_id.value.length <= 10) {
                 sub_category_id = sub_category_id.value;
@@ -402,14 +644,25 @@ include_once("../includes/footer_script.php");
             }
 
             var errorMessageDate = document.getElementById('errorMessageDate');
-            var errorMessageCompany = document.getElementById('errorMessageCompany');
             var errorMessageUserId = document.getElementById('errorMessageUserId');
-            var errorMessageStatus = document.getElementById('errorMessageStatus');
             var errorMessageCategoryId = document.getElementById('errorMessageCategoryId');
             var errorMessageSubCategoryId = document.getElementById('errorMessageSubCategoryId');
+            var errorMessageStatus = document.getElementById('errorMessageStatus');
 
-            date.style.borderColor = company.style.borderColor = select2_user_id_container.style.borderColor = status.style.borderColor = select2_category_id_container.style.borderColor = select2_sub_category_id_container.style.borderColor = '#E4E6EF';
-            errorMessageDate.innerText = errorMessageCompany.innerText = errorMessageUserId.innerText = errorMessageStatus.innerText = errorMessageCategoryId.innerText = errorMessageSubCategoryId.innerText = '';
+            var errorMessageBusinessName = document.getElementById('errorMessageBusinessName');
+            var errorMessageEmail = document.getElementById('errorMessageEmail');
+
+            var errorMessageCountry = document.getElementById('errorMessageCountry');
+            var errorMessageState = document.getElementById('errorMessageState');
+            var errorMessageCity = document.getElementById('errorMessageCity');
+            var errorMessageMobile = document.getElementById('errorMessageMobile');
+            var errorMessagePhone = document.getElementById('errorMessagePhone');
+            var errorMessageFax = document.getElementById('errorMessageFax');
+
+            date.style.borderColor = select2_user_id_container.style.borderColor = select2_category_id_container.style.borderColor = select2_sub_category_id_container.style.borderColor = select2_status_container.style.borderColor = '#E4E6EF';
+            business_name.style.borderColor = email.style.borderColor = select2_country_id_container.style.borderColor = select2_state_id_container.style.borderColor = select2_city_id_container.style.borderColor = mobile.style.borderColor = phone.style.borderColor = fax.style.borderColor = '#E4E6EF';
+            errorMessageDate.innerText = errorMessageUserId.innerText = errorMessageCategoryId.innerText = errorMessageSubCategoryId.innerText = errorMessageStatus.innerText = '';
+            errorMessageBusinessName.innerText = errorMessageEmail.innerText = errorMessageCountry.innerText = errorMessageState.innerText = errorMessageCity.innerText = errorMessageMobile.innerText = errorMessagePhone.innerText = errorMessageFax.innerText = '';
 
             var checkedValue = null;
             var error = '';
@@ -437,24 +690,6 @@ include_once("../includes/footer_script.php");
                 toasterTrigger('error', error);
                 errorMessageDate.innerText = error;
                 return false;
-            } else if (company.value == '') {
-                company.style.borderColor = '#F00';
-                error = "Company field is required.";
-                toasterTrigger('error', error);
-                errorMessageCompany.innerText = error;
-                return false;
-            } else if (validName.test(company.value)) {
-                company.style.borderColor = '#F00';
-                error = "Special Characters are not Allowed.";
-                toasterTrigger('error', error);
-                errorMessageCompany.innerText = error;
-                return false;
-            } else if (company.value.length > 50) {
-                company.style.borderColor = '#F00';
-                error = "Length should not exceed 50 characters.";
-                toasterTrigger('error', error);
-                errorMessageCompany.innerText = error;
-                return false;
             } else if (user_id.value == '') {
                 select2_user_id_container.style.borderColor = '#F00';
                 error = "Sales Person field is required.";
@@ -473,18 +708,6 @@ include_once("../includes/footer_script.php");
                 toasterTrigger('error', error);
                 errorMessageUserId.innerText = error;
                 return false;
-            } else if (status.value == '' || status.value == 0) {
-                status.style.borderColor = '#F00';
-                error = "Status field is required.";
-                toasterTrigger('error', error);
-                errorMessageStatus.innerText = error;
-                return false;
-            } else if (statusArray.includes(status.value) == false || isNaN(status.value) === true || status.value.length > 3) {
-                status.style.borderColor = '#F00';
-                error = "Please select a valid option.";
-                toasterTrigger('error', error);
-                errorMessageStatus.innerText = error;
-                return false;
             } else if (category_id.value == '') {
                 select2_category_id_container.style.borderColor = '#F00';
                 error = "Category field is required.";
@@ -502,6 +725,120 @@ include_once("../includes/footer_script.php");
                 error = "Category field is required.";
                 toasterTrigger('error', error);
                 errorMessageCategoryId.innerText = error;
+                return false;
+            } else if (status.value == '' || status.value == 0) {
+                select2_status_container.style.borderColor = '#F00';
+                error = "Status field is required.";
+                toasterTrigger('error', error);
+                errorMessageStatus.innerText = error;
+                return false;
+            } else if (statusArray.includes(status.value) == false || isNaN(status.value) === true || status.value.length > 3) {
+                select2_status_container.style.borderColor = '#F00';
+                error = "Please select a valid option.";
+                toasterTrigger('error', error);
+                errorMessageStatus.innerText = error;
+                return false;
+            } else if (business_name.value == '') {
+                business_name.style.borderColor = '#F00';
+                error = "Business Name field is required.";
+                toasterTrigger('error', error);
+                errorMessageBusinessName.innerText = error;
+                return false;
+            } else if (validName.test(business_name.value)) {
+                business_name.style.borderColor = '#F00';
+                error = "Special Characters are not Allowed.";
+                toasterTrigger('error', error);
+                errorMessageBusinessName.innerText = error;
+                return false;
+            } else if (business_name.value.length > 50) {
+                business_name.style.borderColor = '#F00';
+                error = "Length should not exceed 50 characters.";
+                toasterTrigger('error', error);
+                errorMessageBusinessName.innerText = error;
+                return false;
+            } else if (email.value == '') {
+                email.style.borderColor = '#F00';
+                error = "Email field is required.";
+                toasterTrigger('error', error);
+                errorMessageEmail.innerText = error;
+                return false;
+            } else if (validEmail.test(email.value) == false) {
+                email.style.borderColor = '#F00';
+                error = "Invalid Email Address.";
+                toasterTrigger('error', error);
+                errorMessageEmail.innerText = error;
+                return false;
+            } else if (country_id.value == '') {
+                select2_country_id_container.style.borderColor = '#F00';
+                error = "Country field is required.";
+                toasterTrigger('error', error);
+                errorMessageCountry.innerText = error;
+                return false;
+            } else if (isNaN(country_id.value) === true || country_id.value <= 0 || country_id.value.length > 10) {
+                select2_country_id_container.style.borderColor = '#F00';
+                error = "Please select a valid option.";
+                toasterTrigger('error', error);
+                errorMessageCountry.innerText = error;
+                return false;
+            } else if (state_id.value == '') {
+                select2_state_id_container.style.borderColor = '#F00';
+                error = "State field is required.";
+                toasterTrigger('error', error);
+                errorMessageState.innerText = error;
+                return false;
+            } else if (isNaN(state_id.value) === true || state_id.value <= 0 || state_id.value.length > 10) {
+                select2_state_id_container.style.borderColor = '#F00';
+                error = "Please select a valid option.";
+                toasterTrigger('error', error);
+                errorMessageState.innerText = error;
+                return false;
+            } else if (city_id.value == '') {
+                select2_city_id_container.style.borderColor = '#F00';
+                error = "City field is required.";
+                toasterTrigger('error', error);
+                errorMessageCity.innerText = error;
+                return false;
+            } else if (isNaN(city_id.value) === true || city_id.value <= 0 || city_id.value.length > 10) {
+                select2_city_id_container.style.borderColor = '#F00';
+                error = "Please select a valid option.";
+                toasterTrigger('error', error);
+                errorMessageCity.innerText = error;
+                return false;
+            } else if (dial_code.value == '' || isNaN(dial_code.value) === true || dial_code.value <= 0 || dial_code.value.length > 9) {
+                mobile.style.borderColor = '#F00';
+                error = "Invalid country dial code.";
+                toasterTrigger('error', error);
+                errorMessageMobile.innerText = error;
+                return false;
+            } else if (mobile.value == '') {
+                mobile.style.borderColor = '#F00';
+                error = "Mobile No field is required.";
+                toasterTrigger('error', error);
+                errorMessageMobile.innerText = error;
+                return false;
+            } else if (validContactNumber.test(mobile.value) == false || mobile.value.length !== 12) {
+                mobile.style.borderColor = '#F00';
+                error = "Invalid Mobile No.";
+                toasterTrigger('error', error);
+                errorMessageMobile.innerText = error;
+                return false;
+            } else if (iso.value == '' || iso.value.length > 3 || validName.test(iso.value)) {
+                mobile.style.borderColor = '#F00';
+                error = "Invalid country iso.";
+                toasterTrigger('error', error);
+                errorMessageMobile.innerText = error;
+                return false;
+            } else if (phone.value != '' && (validContactNumber.test(phone.value) == false || phone.value.length !== 14)) {
+                phone.style.borderColor = '#F00';
+                error = "Invalid Phone number.";
+                toasterTrigger('error', error);
+                errorMessagePhone.innerText = error;
+                return false;
+            } else if (fax.value != '' && (validContactNumber.test(fax.value) == false || fax.value.length != 14)) {
+                fax.style.borderColor = '#F00';
+                error = "Invalid Fax number.";
+                toasterTrigger('error', error);
+                errorMessageFax.innerText = error;
                 return false;
             } else {
                 for (var i = 0; inputElements[i]; ++i) {
@@ -542,11 +879,20 @@ include_once("../includes/footer_script.php");
                     var postData = {
                         "id": id.value,
                         "date": date.value,
-                        "company": company.value,
                         "user_id": user_id.value,
-                        "status": status.value,
                         "category_id": category_id.value,
                         "sub_category_id": sub_category_id,
+                        "status": status.value,
+                        "business_name": business_name.value,
+                        "email": email.value,
+                        "country_id": country_id.value,
+                        "state_id": state_id.value,
+                        "city_id": city_id.value,
+                        "dial_code": dial_code.value,
+                        "mobile": mobile.value,
+                        "iso": iso.value,
+                        "phone": phone.value,
+                        "fax": fax.value,
                         "user_right_title": '<?php echo $user_right_title; ?>',
                         "data": data
                     };
@@ -567,6 +913,14 @@ include_once("../includes/footer_script.php");
                                                 select2_category_id_container.style.borderColor = '#F00';
                                             } else if (obj.errorField == 'sub_category_id') {
                                                 select2_sub_category_id_container.style.borderColor = '#F00';
+                                            } else if (obj.errorField == 'status') {
+                                                select2_status_container.style.borderColor = '#F00';
+                                            } else if (obj.errorField == 'country_id') {
+                                                select2_country_id_container.style.borderColor = '#F00';
+                                            } else if (obj.errorField == 'state_id') {
+                                                select2_state_id_container.style.borderColor = '#F00';
+                                            } else if (obj.errorField == 'city_id') {
+                                                select2_city_id_container.style.borderColor = '#F00';
                                             } else {
                                                 document.getElementById(obj.errorField).style.borderColor = '#F00';
                                             }

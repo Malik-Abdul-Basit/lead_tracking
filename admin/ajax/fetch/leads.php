@@ -72,10 +72,9 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                     <div class="collapse-card-outer-wrapper">
                         <div class="table-header">
                             <div class="row">
-                                <div class="col-md-2"><b>Company</b></div>
-                                <div class="col-md-2"><b>Sales Person</b></div>
+                                <div class="col-md-3"><b>Sales Person</b></div>
                                 <div class="col-md-2"><b>Date</b></div>
-                                <div class="col-md-2"><b>Status</b></div>' . $h_col . '
+                                <div class="col-md-3"><b>Status</b></div>' . $h_col . '
                             </div>
                         </div>
                     </div>
@@ -102,9 +101,20 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
             $number_of_record = " LIMIT " . $offset . ", " . $perPage;
         }
         $select = "SELECT l.*, CONCAT(u.first_name,' ',u.last_name) AS full_name, u.employee_code, u.email,
-        c.name AS category_name, sc.name AS sub_category_name
+        CONCAT('+',l.dial_code,' ',l.mobile) AS contact_no,
+        c.name AS category_name, sc.name AS sub_category_name,
+        country.country_name,state.state_name,city.city_name
         FROM
-            leads AS l 
+            leads AS l
+        INNER JOIN
+            countries AS country 
+            ON l.country_id=country.id
+        INNER JOIN
+            states AS state 
+            ON l.state_id=state.id
+        INNER JOIN
+            cities AS city 
+            ON l.city_id=city.id    
         INNER JOIN
             users AS u 
             ON l.user_id=u.id
@@ -128,7 +138,7 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                     $category_col_value = $result->category_name;
                 }
                 $status = config('leads.status.title.' . $result->status);
-                $company_initial = getInitialsFromString($result->company, 1);
+                $company_initial = getInitialsFromString($result->business_name, 1);
                 $checkImage = getUserImage($result->user_id);
                 $image_path = $checkImage['image_path'];
                 $img = $checkImage['img'];
@@ -139,10 +149,9 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                     <div class="collapse-card">
                         <div class="card-pane success">
                             <div class="row">
-                                <div class="col-md-2 text-vertical-align-center">' . $result->company . '</div>
-                                <div class="col-md-2 text-vertical-align-center">' . $result->full_name . '</div>
+                                <div class="col-md-3 text-vertical-align-center">' . $result->full_name . '</div>
                                 <div class="col-md-2 text-vertical-align-center">' . date('d-M-Y', strtotime($result->date)) . '</div>
-                                <div class="col-md-2 text-vertical-align-center">' . $status . '</div>';
+                                <div class="col-md-3 text-vertical-align-center">' . $status . '</div>';
                 if ($right) {
                     $data .= '<div class="col-md-2 text-vertical-align-center">' . $category_col_value . '</div>';
 
@@ -174,7 +183,47 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                         </div>
                         <div id="collapse_' . $result->id . '" class="collapse">
                             <div class="card-section">
-                                <div class="card-section-body bg-white">';
+                                <div class="card-section-body p-0">';
+                $data .= '<div class="lead-card-details px-6 py-4">
+                    <div class="card-section-title mb-6">Business Information</div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="small">Name & Email</div>
+                            <span>' . $result->business_name . '</span><br>
+                            <small>' . $result->email . '</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="small">Country, State, City</div>
+                            <span>' . $result->city_name . ', ' . $result->state_name . ', ' . $result->country_name . '</span>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="small">Contact</div>
+                            <span>' . $result->contact_no . '</span><br>
+                            <small> Phone No ' . $result->phone . '<br>Fax ' . $result->fax . '</small>
+                        </div>  
+                    </div>
+                    <div class="card-section-title mt-6 mb-2">Communication Detail</div>
+                </div>
+                <div class="bg-white px-6 py-4">
+                    <div class="card-section-title text-center pt-3 pr-3 pb-1 pl-3 mt-2 mr-2 mb-8 ml-2">
+                        <h5>'.$result->business_name.'</h5>
+                        <p>'.$result->email.'</p>
+                    </div>';
+
+                /*
+                 * <div>
+                                                <span class="text-dark-75 font-weight-bold font-size-h6">' . $result->business_name . '</span>
+                                                <span class="text-muted font-size-sm">2 Hours</span>
+                                            </div>
+
+                                        <div>
+                                            <span class="text-muted font-size-sm">3 minutes</span>
+                                            <span class="text-dark-75 font-weight-bold font-size-h6">' . $result->full_name . '</span>
+                                        </div>
+                 *
+                 */
+
+
                 $query_lead_messages = mysqli_query($db, "SELECT * FROM `lead_messages` WHERE `lead_id`='{$result->id}'");
                 if (mysqli_num_rows($query_lead_messages) > 0) {
                     while ($object_lead_messages = mysqli_fetch_object($query_lead_messages)) {
@@ -185,12 +234,8 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                                     <div class="d-flex flex-column mb-3 align-items-start">
                                         <div class="d-flex align-items-center">
                                             <span class="symbol rounded-circle symbol-lg-35 symbol-25 symbol-light-success mr-2">
-                                                <span class="symbol-label rounded-circle font-size-h5 font-weight-bold">'.$company_initial.'</span>
+                                                <span class="symbol-label rounded-circle font-size-h5 font-weight-bold">' . $company_initial . '</span>
                                             </span>
-                                            <div>
-                                                <span class="text-dark-75 font-weight-bold font-size-h6">' . $result->company . '</span>
-                                                <span class="text-muted font-size-sm">2 Hours</span>
-                                            </div>
                                         </div>
                                         <div class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-75Per">' . $object_lead_messages->question . '</div>
                                     </div>
@@ -200,12 +245,8 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                                 <!--begin::Message Out-->
                                 <div class="d-flex flex-column mb-5 align-items-end">
                                     <div class="d-flex align-items-center">
-                                        <div>
-                                            <span class="text-muted font-size-sm">3 minutes</span>
-                                            <span class="text-dark-75 font-weight-bold font-size-h6">' . $result->full_name . '</span>
-                                        </div>
                                         <div class="symbol symbol-circle symbol-40 ml-3">
-                                            <img alt="Pic" src="'.$image_path.'">
+                                            <img alt="Pic" src="' . $image_path . '">
                                         </div>
                                     </div>
                                     <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-left max-w-75Per">' . $object_lead_messages->answer . '</div>
@@ -221,7 +262,7 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                 }
 
                 $data .= '
-                           </div></div>
+                           </div></div></div>
                         </div>
                         <div class="card-footer-info">
                             <div class="d-block float-left overflow-hidden">
