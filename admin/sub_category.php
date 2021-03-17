@@ -62,6 +62,7 @@ include_once("../includes/mobile_menu.php");
                                                     $name = $sort_by = '';
                                                 }
                                                 $TAttrs = ' type="text" class="form-control" ';
+                                                $Select2 = ' class="form-control apply_select2" ';
                                                 $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
@@ -96,7 +97,7 @@ include_once("../includes/mobile_menu.php");
                                                                         <div class="form-group">
                                                                             <label>* Category:</label>
                                                                             <select tabindex="20"
-                                                                                    id="category_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                                    id="category_id" <?php echo $Select2 . $onblur; ?>>
                                                                                 <option selected="selected" value="">
                                                                                     Select
                                                                                 </option>

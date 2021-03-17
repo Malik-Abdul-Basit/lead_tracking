@@ -168,7 +168,7 @@ include_once("../includes/footer_script.php");
             var SearchQuery = '';
             var PageNumber = "1";
             var PageSize = "20";
-            var SortColumn = 'u.id';
+            var SortColumn = 'u.employee_code';
             var SortOrder = 'ASC';
             if (BG_SearchQuery && BG_SearchQuery.value != '') {
                 SearchQuery = BG_SearchQuery.value;
