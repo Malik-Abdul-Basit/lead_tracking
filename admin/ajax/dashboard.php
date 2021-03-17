@@ -49,6 +49,32 @@ if (isset($_POST['monthlyLeadsChart'])) {
     echo json_encode($return);
 }
 
+
+if (isset($_POST['yearlyLeadsPercentageChart'])) {
+    $object = (object)$_POST['yearlyLeadsPercentageChart'];
+    $year = $object->BG_Year;
+    $pai_chart_data = $drill_down_chart_data = [];
+
+    $sql_total = mysqli_query($db, "SELECT COUNT(l.id) AS total_leads FROM leads AS l INNER JOIN categories AS c ON c.id=l.category_id WHERE l.company_id='{$company_id}' AND l.branch_id='{$branch_id}' AND l.deleted_at IS NULL AND c.deleted_at IS NULL AND YEAR(l.date) = '{$year}' ORDER BY c.sort_by ASC");
+    if ($sql_total && mysqli_num_rows($sql_total) > 0) {
+        if ($obj_total = mysqli_fetch_object($sql_total)) {
+            $total_leads = $obj_total->total_leads;
+            if ($total_leads && $total_leads > 0) {
+                $checkExist = mysqli_query($db, "SELECT category_id, c.name AS category_name, COUNT(l.id) AS total FROM leads AS l INNER JOIN categories AS c ON c.id=l.category_id WHERE l.company_id='{$company_id}' AND l.branch_id='{$branch_id}' AND l.deleted_at IS NULL AND c.deleted_at IS NULL AND YEAR(l.date) = '{$year}' GROUP BY l.category_id ORDER BY c.sort_by ASC");
+                if (mysqli_num_rows($checkExist) > 0) {
+                    while ($result = mysqli_fetch_object($checkExist)) {
+                        $pai_chart_data[] = ['name' => $result->category_name, 'y' => (int)$result->total];
+                        $total_percentage = round((($result->total) / ($total_leads) *100 ),2);
+                        $drill_down_chart_data[] = ['name' => $result->category_name, 'y' => (int)$total_percentage];
+                    }
+                }
+            }
+        }
+    }
+    echo json_encode(['year' => $year, 'pai_chart_data' => $pai_chart_data, 'drill_down_chart_data' => $drill_down_chart_data]);
+}
+
+
 if (isset($_POST['singleLeadChart'])) {
     $object = (object)$_POST['singleLeadChart'];
     $from = $object->RangeStart;
