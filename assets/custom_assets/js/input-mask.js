@@ -27,7 +27,7 @@ var KTInputmask = function () {
 
         //email address
         $("#email,#official_email,#hr_email,#company_email,#other_email").inputmask({
-            mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+            mask: "*{1,30}[.*{1,30}][.*{1,30}][.*{1,30}]@*{1,30}[.*{2,30}][.*{1,10}]",
             greedy: false,
             onBeforePaste: function (pastedValue, opts) {
                 pastedValue = pastedValue.toLowerCase();

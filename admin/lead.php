@@ -314,7 +314,7 @@ include_once("../includes/mobile_menu.php");
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <label>* Select State:</label>
+                                                                            <label> Select State:</label>
                                                                             <select tabindex="90"
                                                                                     onchange="getCities(event)"
                                                                                     id="state_id" <?php echo $TAttrs . $onblur; ?>>
@@ -335,7 +335,7 @@ include_once("../includes/mobile_menu.php");
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <label>* Select City:</label>
+                                                                            <label> Select City:</label>
                                                                             <select tabindex="100"
                                                                                     id="city_id" <?php echo $TAttrs . $onblur; ?>>
                                                                                 <?php
@@ -780,25 +780,25 @@ include_once("../includes/footer_script.php");
                 toasterTrigger('error', error);
                 errorMessageCountry.innerText = error;
                 return false;
-            } else if (state_id.value == '') {
+            }/* else if (state_id.value == '') {
                 select2_state_id_container.style.borderColor = '#F00';
                 error = "State field is required.";
                 toasterTrigger('error', error);
                 errorMessageState.innerText = error;
                 return false;
-            } else if (isNaN(state_id.value) === true || state_id.value <= 0 || state_id.value.length > 10) {
+            }*/ else if (state_id.value != '' && (isNaN(state_id.value) === true || state_id.value <= 0 || state_id.value.length > 10)) {
                 select2_state_id_container.style.borderColor = '#F00';
                 error = "Please select a valid option.";
                 toasterTrigger('error', error);
                 errorMessageState.innerText = error;
                 return false;
-            } else if (city_id.value == '') {
+            }/* else if (city_id.value == '') {
                 select2_city_id_container.style.borderColor = '#F00';
                 error = "City field is required.";
                 toasterTrigger('error', error);
                 errorMessageCity.innerText = error;
                 return false;
-            } else if (isNaN(city_id.value) === true || city_id.value <= 0 || city_id.value.length > 10) {
+            }*/ else if (city_id.value != '' && (isNaN(city_id.value) === true || city_id.value <= 0 || city_id.value.length > 10)) {
                 select2_city_id_container.style.borderColor = '#F00';
                 error = "Please select a valid option.";
                 toasterTrigger('error', error);

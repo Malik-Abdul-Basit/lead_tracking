@@ -68,13 +68,13 @@ if (isset($_POST['postData'])) {
         echo json_encode(['code' => 422, 'errorField' => 'country_id', 'errorDiv' => 'errorMessageCountry', 'errorMessage' => 'Country field is required.']);
     } else if (!is_numeric($country_id) || strlen($country_id) > 10) {
         echo json_encode(['code' => 422, 'errorField' => 'country_id', 'errorDiv' => 'errorMessageCountry', 'errorMessage' => 'Please select a valid option.']);
-    } else if (empty($state_id)) {
+    }/* else if (empty($state_id)) {
         echo json_encode(['code' => 422, 'errorField' => 'state_id', 'errorDiv' => 'errorMessageState', 'errorMessage' => 'State field is required.']);
-    } else if (!is_numeric($state_id) || strlen($state_id) > 10) {
+    }*/ else if (!empty($state_id) && (!is_numeric($state_id) || strlen($state_id) > 10)) {
         echo json_encode(['code' => 422, 'errorField' => 'state_id', 'errorDiv' => 'errorMessageState', 'errorMessage' => 'Please select a valid option.']);
-    } else if (empty($city_id)) {
+    }/* else if (empty($city_id)) {
         echo json_encode(['code' => 422, 'errorField' => 'city_id', 'errorDiv' => 'errorMessageCity', 'errorMessage' => 'City field is required.']);
-    } else if (!is_numeric($city_id) || strlen($city_id) > 10) {
+    }*/ else if (!empty($city_id) && (!is_numeric($city_id) || strlen($city_id) > 10)) {
         echo json_encode(['code' => 422, 'errorField' => 'city_id', 'errorDiv' => 'errorMessageCity', 'errorMessage' => 'Please select a valid option.']);
     } else if (empty($dial_code) || !is_numeric($dial_code) || strlen($dial_code) > 9) {
         echo json_encode(['code' => 422, 'errorField' => 'mobile', 'errorDiv' => 'errorMessageMobile', 'errorMessage' => 'Invalid country dial code.']);

@@ -100,27 +100,27 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
         } else {
             $number_of_record = " LIMIT " . $offset . ", " . $perPage;
         }
-        $select = "SELECT l.*, CONCAT(u.first_name,' ',u.last_name) AS full_name, u.employee_code, u.email,
-        CONCAT('+',l.dial_code,' ',l.mobile) AS contact_no,
+        $select = "SELECT l.*, CONCAT('+',l.dial_code,' ',l.mobile) AS contact_no,
+        CONCAT(u.first_name,' ',u.last_name) AS full_name, u.employee_code, u.email AS user_email,
         c.name AS category_name, sc.name AS sub_category_name,
         country.country_name,state.state_name,city.city_name
         FROM
             leads AS l
-        INNER JOIN
-            countries AS country 
-            ON l.country_id=country.id
-        INNER JOIN
-            states AS state 
-            ON l.state_id=state.id
-        INNER JOIN
-            cities AS city 
-            ON l.city_id=city.id    
         INNER JOIN
             users AS u 
             ON l.user_id=u.id
         INNER JOIN
             categories AS c
             ON l.category_id=c.id
+        INNER JOIN
+            countries AS country 
+            ON l.country_id=country.id
+        LEFT JOIN
+            states AS state 
+            ON l.state_id=state.id
+        LEFT JOIN
+            cities AS city 
+            ON l.city_id=city.id
         LEFT JOIN
             sub_categories AS sc 
             ON l.sub_category_id=sc.id " . $condition . $sort . $number_of_record;
@@ -144,12 +144,28 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                 $img = $checkImage['img'];
                 $default_image = $checkImage['default'];
 
+                $mobile_no_flag = '<img class="mr-1" src="' . $ct_assets . 'images/flags/' . $result->iso . '.png">';
+
+                $contact_no = !empty($result->mobile) ? $mobile_no_flag . $result->contact_no : 'None';
+                $phone = !empty($result->phone) ? $result->phone : 'None';
+                $fax = !empty($result->fax) ? $result->fax : 'None';
+
+                $city = !empty($result->city_name) ? $result->city_name : 'None';
+                $state = !empty($result->state_name) ? $result->state_name : 'None';
+
+
                 $data .= '<tr style="left:0" data-row="' . $row_number . '" class="datatable-row  datatable-row-' . $evenOrOdd . '"><td>';
                 $data .= '<div class="collapse-card-outer-wrapper">
                     <div class="collapse-card">
                         <div class="card-pane success">
                             <div class="row">
-                                <div class="col-md-3 text-vertical-align-center">' . $result->full_name . '</div>
+                                <div class="col-md-3 text-vertical-align-center">
+                                    <div class="flex-grow-0">
+                                        <span>' . $result->full_name . '</span>
+                                        <br>
+                                        <small>' . $result->user_email . '</small>
+                                    </div>
+                                </div>
                                 <div class="col-md-2 text-vertical-align-center">' . date('d-M-Y', strtotime($result->date)) . '</div>
                                 <div class="col-md-3 text-vertical-align-center">' . $status . '</div>';
                 if ($right) {
@@ -193,21 +209,21 @@ if (isset($_POST['filters']) && !empty($_POST['filters'])) {
                             <small>' . $result->email . '</small>
                         </div>
                         <div class="col-md-4">
-                            <div class="small">Country, State, City</div>
-                            <span>' . $result->city_name . ', ' . $result->state_name . ', ' . $result->country_name . '</span>
+                            <div class="small">City, State, Country</div>
+                            <span>' . $city . ', ' . $state . ', ' . $result->country_name . '</span>
                         </div>
                         <div class="col-md-4">
                             <div class="small">Contact</div>
-                            <span>' . $result->contact_no . '</span><br>
-                            <small> Phone No ' . $result->phone . '<br>Fax ' . $result->fax . '</small>
+                            <span>Mobile No: ' . $contact_no . '</span><br>
+                            <small> Phone No: ' . $phone . '<br>Fax: ' . $fax . '</small>
                         </div>  
                     </div>
                     <div class="card-section-title mt-6 mb-2">Communication Detail</div>
                 </div>
                 <div class="bg-white px-6 py-4">
                     <div class="card-section-title text-center pt-3 pr-3 pb-1 pl-3 mt-2 mr-2 mb-8 ml-2">
-                        <h5>'.$result->business_name.'</h5>
-                        <p>'.$result->email.'</p>
+                        <h5>' . $result->business_name . '</h5>
+                        <p>' . $result->email . '</p>
                     </div>';
 
                 /*
