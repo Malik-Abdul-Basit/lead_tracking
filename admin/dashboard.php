@@ -166,6 +166,43 @@ $last_five_year = round($current_year - 5);
                                 <div class="col-md-12">
                                     <div class="card card-custom card-stretch gutter-b">
                                         <div class="card-header pt-6">
+                                            <div class="col-sm-9 my-2 my-md-0"></div>
+                                            <div class="col-sm-3 my-2 my-md-0">
+                                                <div class="form-group">
+                                                    <label class="font-weight-bold" for="BG_Year">Year</label>
+                                                    <select class="form-control"
+                                                            id="BG_Year"
+                                                            onchange="callYearlyLeadsPercentageData()">
+                                                        <?php
+                                                        for ($y = $starting_year; $y <= $current_year; $y++) {
+                                                            $s = ($y == $current_year) ? 'selected="selected"' : '';
+                                                            echo '<option value="' . $y . '" ' . $s . '>' . $y . '</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body d-flex flex-column px-2 py-4">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div id="PieLeadsChartWrapper"
+                                                         class="HighChartWrapper"></div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div id="DrillDownLeadsChartWrapper"
+                                                         class="HighChartWrapper"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <div class="card-header pt-6">
                                             <div class="col-sm-6 my-2 my-md-0"></div>
                                             <div class="col-sm-3 my-2 my-md-0">
                                                 <div class="form-group">
@@ -269,7 +306,8 @@ $last_five_year = round($current_year - 5);
                                         </div>
                                         <div class="card-body d-flex flex-column">
                                             <div class="row">
-                                                <div class="col-md-7">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-8">
                                                     <div id="singleLeadChartWrapper" class="HighChartWrapper"></div>
                                                 </div>
                                             </div>
@@ -277,7 +315,6 @@ $last_five_year = round($current_year - 5);
                                     </div>
                                 </div>
                             </div>
-
 
                         </div>
                     </div>
@@ -300,24 +337,27 @@ include_once("../includes/footer_script.php");
         getAllPageData();
 
         function getAllPageData() {
+            var BG_CurrentYear = document.getElementById('BG_CurrentYear');
+            var BG_Year = document.getElementById('BG_Year');
             var BG_StartYear = document.getElementById('BG_StartYear');
             var BG_EndYear = document.getElementById('BG_EndYear');
             var BG_CategoryFilter = document.getElementById('BG_CategoryFilter');
             var BG_RangeStart = document.getElementById('BG_RangeStart');
             var BG_RangeEnd = document.getElementById('BG_RangeEnd');
-            var BG_CurrentYear = document.getElementById('BG_CurrentYear');
 
             var filter = {
+                'CurrentYear': BG_CurrentYear.value,
+                'BG_Year': BG_Year.value,
                 'StartYear': BG_StartYear.value,
                 'EndYear': BG_EndYear.value,
                 'CategoryFilter': BG_CategoryFilter.value,
                 'RangeStart': BG_RangeStart.value,
                 'RangeEnd': BG_RangeEnd.value,
-                'CurrentYear': BG_CurrentYear.value,
             };
             getMonthlyLeadsData(filter);
             getSingleLeadChartData(filter);
             getYearlyLeadChartData(filter);
+            getYearlyLeadsPercentageData(filter);
         }
 
         function callYearlyLeadChartData() {
@@ -330,6 +370,7 @@ include_once("../includes/footer_script.php");
             };
             getYearlyLeadChartData(filter);
         }
+
         function getYearlyLeadChartData(filter) {
             loader(true);
             $.ajax({
@@ -338,7 +379,6 @@ include_once("../includes/footer_script.php");
                 success: function (resPonse) {
                     if (resPonse !== undefined && resPonse != '') {
                         var ParseResponse = JSON.parse(resPonse);
-                        console.log(ParseResponse);
                         yearlyLeadsChart(ParseResponse);
                         loader(false);
                     } else {
@@ -350,6 +390,7 @@ include_once("../includes/footer_script.php");
                 }
             });
         }
+
         function yearlyLeadsChart(ParseResponse) {
             Highcharts.chart('yearlyLeadsChartWrapper', {
                 chart: {
@@ -410,6 +451,7 @@ include_once("../includes/footer_script.php");
             };
             getSingleLeadChartData(filter);
         }
+
         function getSingleLeadChartData(filter) {
             loader(true);
             $.ajax({
@@ -429,6 +471,7 @@ include_once("../includes/footer_script.php");
                 }
             });
         }
+
         function singleLeadChart(ParseResponse) {
 
             Highcharts.chart('singleLeadChartWrapper', {
@@ -505,6 +548,7 @@ include_once("../includes/footer_script.php");
             };
             getMonthlyLeadsData(filter);
         }
+
         function getMonthlyLeadsData(filter) {
             loader(true);
             $.ajax({
@@ -524,6 +568,7 @@ include_once("../includes/footer_script.php");
                 }
             });
         }
+
         function monthlyLeadsChart(ParseResponse) {
             Highcharts.chart('monthlyLeadsChartWrapper', {
                 chart: {
@@ -598,6 +643,113 @@ include_once("../includes/footer_script.php");
                     }
                 },
                 series: ParseResponse
+            });
+        }
+
+        function callYearlyLeadsPercentageData() {
+            var BG_Year = document.getElementById('BG_Year');
+            var filter = {
+                'BG_Year': BG_Year.value,
+            };
+            getYearlyLeadsPercentageData(filter);
+        }
+
+        function getYearlyLeadsPercentageData(filter) {
+            loader(true);
+            $.ajax({
+                type: "POST", url: "ajax/dashboard.php",
+                data: {'yearlyLeadsPercentageChart': filter},
+                success: function (resPonse) {
+                    if (resPonse !== undefined && resPonse != '') {
+                        var ParseResponse = JSON.parse(resPonse);
+                        yearlyLeadsPercentageChart(ParseResponse);
+                        loader(false);
+                    } else {
+                        loader(false);
+                    }
+                },
+                error: function () {
+                    loader(false);
+                }
+            });
+
+        }
+
+        function yearlyLeadsPercentageChart(ParseResponse) {
+            Highcharts.chart('DrillDownLeadsChartWrapper', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Leads Percentage of ' + ParseResponse.year
+                },
+                subtitle: {
+                    text: null
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Leads percentage'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.2f}%'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                },
+                "series": [
+                    {
+                        "name": "Categories",
+                        "colorByPoint": true,
+                        "data": ParseResponse.drill_down_chart_data
+                    }
+                ],
+            });
+            Highcharts.chart('PieLeadsChartWrapper', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Leads Percentage of ' + ParseResponse.year
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.2f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Categories',
+                    colorByPoint: true,
+                    data: ParseResponse.pai_chart_data
+                }]
             });
         }
 

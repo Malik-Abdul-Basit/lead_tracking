@@ -935,6 +935,11 @@ include_once("../includes/footer_script.php");
                                                 var select2_userIdContainer = document.getElementById("select2-user_id-container");
                                                 var select2_categoryIdContainer = document.getElementById("select2-category_id-container");
                                                 var select2_subCategoryIdContainer = document.getElementById("select2-sub_category_id-container");
+
+                                                var select2_countryId_container = document.getElementById("select2-country_id-container");
+                                                var select2_stateId_container = document.getElementById("select2-state_id-container");
+                                                var select2_cityId_container = document.getElementById("select2-city_id-container");
+
                                                 if (select2_userIdContainer) {
                                                     select2_userIdContainer.removeAttribute("title");
                                                     select2_userIdContainer.innerHTML = '<span class="select2-selection__placeholder">Select</span>';
@@ -950,6 +955,14 @@ include_once("../includes/footer_script.php");
                                                     select2_subCategoryIdContainer.innerHTML = '<span class="select2-selection__placeholder">Select</span>';
                                                     sub_category_id.value = 0;
                                                 }
+                                                if (select2_countryId_container && select2_stateId_container && select2_cityId_container) {
+                                                    select2_countryId_container.removeAttribute("title");
+                                                    select2_stateId_container.removeAttribute("title");
+                                                    select2_cityId_container.removeAttribute("title");
+                                                    select2_countryId_container.innerHTML = select2_stateId_container.innerHTML = select2_cityId_container.innerHTML = '<span class="select2-selection__placeholder">Select</span>';
+                                                }
+                                                country_id.value = '';
+                                                state_id.innerHTML = city_id.innerHTML = '';
                                             }
                                             loader(false);
                                             toasterTrigger(obj.toasterClass, obj.responseMessage);
