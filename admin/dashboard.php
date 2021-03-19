@@ -406,7 +406,8 @@ include_once("../includes/footer_script.php");
                     categories: ParseResponse.years,
                     tickmarkPlacement: 'on',
                     title: {
-                        enabled: false
+                        text: 'Years',
+                        enabled: true
                     }
                 },
                 yAxis: {
@@ -530,7 +531,7 @@ include_once("../includes/footer_script.php");
                     lineColor: Highcharts.getOptions().colors[1],
                     color: Highcharts.getOptions().colors[2],
                     fillOpacity: 0.5,
-                    name: 'Elevation',
+                    name: 'Number of Leads',
                     marker: {
                         enabled: true
                     },
@@ -581,7 +582,11 @@ include_once("../includes/footer_script.php");
                     text: ''
                 },
                 xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    title: {
+                        text: 'Months',
+                        enabled: true
+                    }
                 },
                 yAxis: {
                     title: {
@@ -620,6 +625,10 @@ include_once("../includes/footer_script.php");
                 },
                 xAxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    title: {
+                        text: 'Months',
+                        enabled: true
+                    },
                     crosshair: true
                 },
                 yAxis: {
@@ -713,7 +722,7 @@ include_once("../includes/footer_script.php");
                 },
                 "series": [
                     {
-                        "name": "Categories",
+                        "name": "Percentage",
                         "colorByPoint": true,
                         "data": ParseResponse.drill_down_chart_data
                     }
@@ -746,7 +755,7 @@ include_once("../includes/footer_script.php");
                     }
                 },
                 series: [{
-                    name: 'Categories',
+                    name: 'Number of Leads',
                     colorByPoint: true,
                     data: ParseResponse.pai_chart_data
                 }]
