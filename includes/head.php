@@ -50,8 +50,8 @@
     if (in_array($page, ['dashboard'])) {
         ?>
         <script type="text/javascript" src="<?php echo $base_url ?>assets/high_charts/code/highcharts.js"></script>
-        <!--<script type="text/javascript" src="<?php //echo $base_url ?>assets/high_charts/code/highcharts.min.js"></script>-->
-        <!--<script type="text/javascript" src="<?php //echo $base_url ?>assets/high_charts/code/annotations.jss"></script>-->
+        <script type="text/javascript" src="<?php echo $base_url ?>assets/high_charts/code/modules/exporting.js"></script>
+        <script type="text/javascript" src="<?php echo $base_url ?>assets/high_charts/code/modules/export-data.js"></script>
         <?php
     }
     ?>

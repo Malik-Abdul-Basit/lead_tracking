@@ -891,10 +891,11 @@ span.e-input-group.e-control-wrapper.e-date-wrapper span.e-input-group-icon.e-da
     background-size: 580px !important;
 }
 
-.max-w-75Per{
+.max-w-75Per {
     max-width: 75% !important;
 }
-.HighChartWrapper{
+
+.HighChartWrapper {
     height: 450px;
     max-width: 100% !important;
 }
@@ -902,4 +903,26 @@ span.e-input-group.e-control-wrapper.e-date-wrapper span.e-input-group-icon.e-da
 .lead-card-details .small {
     font-size: 0.75rem;
     color: #627D98;
+}
+
+.highcharts-menu-item:hover {
+    background: #3699FF !important;
+
+}
+
+
+div.highcharts-data-table table {
+    align-items: center;
+    border: 1px solid #000 !important;
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
+div.highcharts-data-table table tr,
+div.highcharts-data-table table td,
+div.highcharts-data-table table th {
+    border: 1px solid #000 !important;
+    padding: 8px 12px;
+    text-align: center;
 }

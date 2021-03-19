@@ -65,7 +65,7 @@ if (isset($_POST['yearlyLeadsPercentageChart'])) {
                     while ($result = mysqli_fetch_object($checkExist)) {
                         $pai_chart_data[] = ['name' => $result->category_name, 'y' => (int)$result->total];
                         $total_percentage = round((($result->total) / ($total_leads) *100 ),2);
-                        $drill_down_chart_data[] = ['name' => $result->category_name, 'y' => (int)$total_percentage];
+                        $drill_down_chart_data[] = ['name' => $result->category_name, 'y' => $total_percentage];
                     }
                 }
             }
