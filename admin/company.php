@@ -61,8 +61,6 @@ include_once("../includes/mobile_menu.php");
                                                     $name = '';
                                                     $status = '-1';
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
@@ -94,7 +92,7 @@ include_once("../includes/mobile_menu.php");
 
                                                                 <div class="form-group">
                                                                     <label>* Company Status:</label>
-                                                                    <select id="status" <?php echo $TAttrs . $onblur; ?>>
+                                                                    <select id="status" <?php echo $Select2 . $onblur; ?>>
                                                                         <option selected="selected" value="">Select
                                                                         </option>
                                                                         <?php

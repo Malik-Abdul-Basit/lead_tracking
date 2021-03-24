@@ -59,9 +59,6 @@ include_once("../includes/mobile_menu.php");
                                                     echo ucwords(str_replace("_", " ", $page));
                                                     $id = $department_id = $designation_id = 0;
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
-                                                $DateInput = ' type="text" class="form-control DMY_dateOnly" maxlength="10" ';
                                                 ?>
                                             </h3>
                                         </div>

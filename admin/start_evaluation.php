@@ -64,9 +64,6 @@ include_once("../includes/mobile_menu.php");
                                                     $name = 'Perform Evaluation';
                                                     $date = date('d-m-Y');
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
-                                                $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
                                                 ?>
                                             </h3>
                                         </div>

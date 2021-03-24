@@ -61,9 +61,6 @@ include_once("../includes/mobile_menu.php");
                                                     $id = $category_id = 0;
                                                     $name = $sort_by = '';
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $Select2 = ' class="form-control apply_select2" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
