@@ -80,10 +80,6 @@ include_once("../includes/mobile_menu.php");
                                                     $iso = 'pk';
                                                 }
                                                 $mobile_no_flag = '<img class="mr-1" src="' . $ct_assets . 'images/flags/' . $iso . '.png">+' . $dial_code;
-                                                $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $Select2 = ' class="form-control apply_select2" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
@@ -102,7 +98,10 @@ include_once("../includes/mobile_menu.php");
                                                                     <!-- Date -->
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="date">* Date:</label>
+                                                                            <label for="date">
+                                                                                * Date:
+                                                                                <small>(dd-MM-yyyy)</small>
+                                                                            </label>
                                                                             <input tabindex="10" <?php echo $DateInput; ?>
                                                                                    id="date" placeholder="Date"
                                                                                    value="<?php echo $date; ?>">

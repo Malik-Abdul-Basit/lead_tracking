@@ -34,12 +34,6 @@ include_once("../includes/mobile_menu.php");
                                             <h3 class="card-title">
                                                 <?php
                                                 echo ucwords(str_replace("_", " ", $page));
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $NAttrs = ' type="number" class="form-control" ';
-                                                //$DateInput = ' type="text" class="form-control DMY_dateOnly" maxlength="10" ';
-                                                $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
-                                                $disable = ' type="text" class="form-control form-control-solid" disabled readonly style="cursor: not-allowed" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 $emp_code = '';
                                                 if (isset($_GET['emp_code']) && is_numeric($_GET['emp_code']) && !empty($_GET['emp_code'])) {
                                                     $emp_code = $_GET['emp_code'];

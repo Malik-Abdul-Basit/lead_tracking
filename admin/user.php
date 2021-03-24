@@ -83,11 +83,6 @@ include_once("../includes/mobile_menu.php");
                                                     $status = config('users.status.value.activated');
                                                     $type = config('users.type.value.supervisor');
                                                 }
-                                                $NAttrs = ' type="number" class="form-control" ';
-                                                //$DateInput = ' type="text" class="form-control DMY_dateOnly" maxlength="10" ';
-                                                $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
@@ -222,7 +217,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label for="country_id">* Select Country:</label>
                                                                 <select tabindex="100"
-                                                                        id="country_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="country_id" <?php echo $Select2 . $onblur; ?>>
                                                                     <option selected="selected" value="">Select
                                                                     </option>
                                                                     <?php
@@ -253,7 +248,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label for="state_id">* Select State:</label>
                                                                 <select tabindex="110" onchange="getCities(event)"
-                                                                        id="state_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="state_id" <?php echo $Select2 . $onblur; ?>>
                                                                     <?php
                                                                     if (!empty($country_id)) {
                                                                         echo getStates($country_id, $state_id);
@@ -273,7 +268,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label for="city_id">* Select City:</label>
                                                                 <select tabindex="120"
-                                                                        id="city_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="city_id" <?php echo $Select2 . $onblur; ?>>
                                                                     <?php
                                                                     if (!empty($country_id) && !empty($state_id)) {
                                                                         echo getCities($state_id, $city_id);
@@ -296,7 +291,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label for="status">* Status</label>
                                                                 <select tabindex="130"
-                                                                        id="status" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="status" <?php echo $Select2 . $onblur; ?>>
                                                                     <?php
                                                                     foreach (config('users.status.title') as $key => $val) {
                                                                         $selected = $status == $key ? 'selected="selected"' : '';
@@ -314,7 +309,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label for="type">* Roles</label>
                                                                 <select tabindex="150"
-                                                                        id="type" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="type" <?php echo $Select2 . $onblur; ?>>
                                                                     <?php
                                                                     $roles = config('users.type.title');
                                                                     unset($roles[1]);

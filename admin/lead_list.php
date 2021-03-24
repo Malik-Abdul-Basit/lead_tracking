@@ -275,7 +275,7 @@ include_once("../includes/footer_script.php");
                     loader(true);
                     $.ajax({
                         type: "POST", url: "ajax/delete.php",
-                        data: "delete_evaluation_grading_policy=" + id,
+                        data: "delete_lead=" + id,
                         success: function (resPonse) {
                             if (resPonse !== undefined && resPonse != '') {
                                 var obj = JSON.parse(resPonse);

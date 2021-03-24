@@ -72,7 +72,8 @@ include_once("../includes/mobile_menu.php");
                                                         exit();
                                                     }
                                                     echo 'Add ' . ucwords(str_replace("_", " ", $page));
-                                                    $id = $country_id = $state_id = $city_id = 0;
+                                                    $id = $state_id = $city_id = 0;
+                                                    $country_id = 166;
                                                     $name = $company_email = $hr_email = $other_email = '';
                                                     $mobile = $phone = $fax = $web = $address = $type = '';
                                                     $dial_code = '92';
@@ -81,8 +82,6 @@ include_once("../includes/mobile_menu.php");
                                                     $status = config('branches.status.value.working');
                                                 }
                                                 $mobile_no_flag = '<img class="mr-1" src="' . $ct_assets . 'images/flags/' . $iso . '.png">+' . $dial_code;
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
@@ -150,7 +149,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="form-group">
                                                                     <label>* Select Country:</label>
                                                                     <select tabindex="25" onchange="getStates(event)"
-                                                                            id="country_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                            id="country_id" <?php echo $Select2 . $onblur; ?>>
                                                                         <option selected="selected" value="">Select
                                                                         </option>
                                                                         <?php
@@ -181,7 +180,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="form-group">
                                                                     <label>* Select State:</label>
                                                                     <select tabindex="30" onchange="getCities(event)"
-                                                                            id="state_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                            id="state_id" <?php echo $Select2 . $onblur; ?>>
                                                                         <?php
                                                                         if (!empty($country_id)) {
                                                                             echo getStates($country_id, $state_id);
@@ -201,7 +200,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="form-group">
                                                                     <label>* Select City:</label>
                                                                     <select tabindex="35"
-                                                                            id="city_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                            id="city_id" <?php echo $Select2 . $onblur; ?>>
                                                                         <?php
                                                                         if (!empty($country_id) && !empty($state_id)) {
                                                                             echo getCities($state_id, $city_id);
@@ -314,7 +313,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="form-group">
                                                                     <label>* Status:</label>
                                                                     <select tabindex="60"
-                                                                            id="status" <?php echo $TAttrs . $onblur; ?>>
+                                                                            id="status" <?php echo $Select2 . $onblur; ?>>
                                                                         <option selected="selected" value="">Select
                                                                         </option>
                                                                         <?php
@@ -338,7 +337,7 @@ include_once("../includes/mobile_menu.php");
                                                                 <div class="form-group">
                                                                     <label>* Type:</label>
                                                                     <select tabindex="65"
-                                                                            id="type" <?php echo $TAttrs . $onblur; ?>>
+                                                                            id="type" <?php echo $Select2 . $onblur; ?>>
                                                                         <option selected="selected" value="">Select
                                                                         </option>
                                                                         <?php

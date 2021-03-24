@@ -38,14 +38,10 @@ include_once("../includes/mobile_menu.php");
                                                     exit();
                                                 }
                                                 echo ucwords(str_replace("_", " ", $page));
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $disable = ' type="text" class="form-control form-control-solid" disabled readonly style="cursor: not-allowed" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 $emp_code = '';
                                                 if (isset($_GET['emp_code']) && is_numeric($_GET['emp_code']) && !empty($_GET['emp_code'])) {
                                                     $emp_code = $_GET['emp_code'];
                                                 }
-
                                                 ?>
                                             </h3>
                                         </div>
@@ -139,7 +135,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label><b>* Roles:</b></label>
                                                                 <select tabindex="20"
-                                                                        id="type" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="type" <?php echo $Select2 . $onblur; ?>>
                                                                     <option selected="selected" value="">Select
                                                                     </option>
                                                                     <?php
@@ -160,7 +156,7 @@ include_once("../includes/mobile_menu.php");
                                                             <div class="form-group">
                                                                 <label><b>* Status:</b></label>
                                                                 <select tabindex="30"
-                                                                        id="status" <?php echo $TAttrs . $onblur; ?>>
+                                                                        id="status" <?php echo $Select2 . $onblur; ?>>
                                                                     <option selected="selected" value="">Select
                                                                     </option>
                                                                     <?php
@@ -192,7 +188,7 @@ include_once("../includes/mobile_menu.php");
                                                                         <label><b>* Branch:</b></label>
                                                                         <select tabindex="40"
                                                                                 onchange="getUserRights()"
-                                                                                id="branch_id" <?php echo $TAttrs . $onblur; ?>>
+                                                                                id="branch_id" <?php echo $Select2 . $onblur; ?>>
                                                                             <?php
                                                                             $working = config('branches.status.value.working');
                                                                             $select = "SELECT `id`,`name` FROM `branches` WHERE `company_id`='{$global_company_id}' AND `status`='{$working}' AND `deleted_at` IS NULL ORDER BY `id` ASC";

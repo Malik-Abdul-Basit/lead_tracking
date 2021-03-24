@@ -145,11 +145,6 @@ include_once("../includes/mobile_menu.php");
 
                                                     $mobile_no_flag = $other_mobile_no_flag = $guardian_mobile_no_flag = '<img class="mr-1" src="' . $ct_assets . 'images/flags/' . $iso . '.png">+' . $dial_code;
                                                 }
-                                                $NAttrs = ' type="number" class="form-control" ';
-                                                //$DateInput = ' type="text" class="form-control DMY_dateOnly" maxlength="10" ';
-                                                $DateInput = '  type="text" class="DatePicker e-input form-control" onkeypress="openCalendar(event)" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>

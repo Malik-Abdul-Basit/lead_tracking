@@ -83,6 +83,13 @@ if (isset($_POST['delete_sub_category'])) {
     }
 }
 
+if (isset($_POST['delete_lead']) && hasRight('lead', 'delete')) {
+    $delete = htmlentities($_POST['delete_lead']);
+    if (mysqli_query($db, "UPDATE `leads` SET `deleted_by`='{$global_user_id}', `deleted_at`='{$deleted_at}' WHERE `company_id`='{$global_company_id}' AND `branch_id`='{$global_branch_id}' AND `id`='{$delete}'")) {
+        echo json_encode(["code" => 200, "toasterClass" => 'success', "responseMessage" => 'Record has been deleted.']);
+    }
+}
+
 if (isset($_POST['delete_department']) && hasRight('department', 'delete')) {
     $delete = htmlentities($_POST['delete_department']);
     $query = mysqli_query($db, "SELECT id FROM employees WHERE department_id='{$delete}' AND deleted_at IS NULL");
