@@ -1,10 +1,10 @@
 <?php
 include_once('../../includes/connection.php');
 
-
 $company_id = $_SESSION['company_id'];
 $branch_id = $_SESSION['branch_id'];
 $user_id = $_SESSION['user_id'];
+global $db;
 
 if (isset($_POST['monthlyLeadsChart'])) {
     $data = $return = [];
@@ -46,9 +46,12 @@ if (isset($_POST['monthlyLeadsChart'])) {
         }
     }
 
-    echo json_encode($return);
+    if ($data && sizeof($data) > 0 && count($data) > 0 && $return && sizeof($return) > 0 && count($return) > 0) {
+        echo json_encode(["code" => 200, "data" => $return]);
+    } else {
+        echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
+    }
 }
-
 
 if (isset($_POST['yearlyLeadsPercentageChart'])) {
     $object = (object)$_POST['yearlyLeadsPercentageChart'];
@@ -64,48 +67,18 @@ if (isset($_POST['yearlyLeadsPercentageChart'])) {
                 if (mysqli_num_rows($checkExist) > 0) {
                     while ($result = mysqli_fetch_object($checkExist)) {
                         $pai_chart_data[] = ['name' => $result->category_name, 'y' => (int)$result->total];
-                        $total_percentage = round((($result->total) / ($total_leads) *100 ),2);
+                        $total_percentage = round((($result->total) / ($total_leads) * 100), 2);
                         $drill_down_chart_data[] = ['name' => $result->category_name, 'y' => $total_percentage];
                     }
                 }
+                $data = ['year' => $year, 'pai_chart_data' => $pai_chart_data, 'drill_down_chart_data' => $drill_down_chart_data];
+                echo json_encode(["code" => 200, "data" => $data]);
+            } else {
+                echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
             }
         }
-    }
-    echo json_encode(['year' => $year, 'pai_chart_data' => $pai_chart_data, 'drill_down_chart_data' => $drill_down_chart_data]);
-}
-
-
-if (isset($_POST['singleLeadChart'])) {
-    $object = (object)$_POST['singleLeadChart'];
-    $from = $object->RangeStart;
-    $to = $object->RangeEnd;
-    $category_id = $object->CategoryFilter;
-    $category_name = '';
-    $data = $return = [];
-
-    $sql_category = mysqli_query($db, "SELECT `name` FROM `categories` WHERE `id`='{$category_id}' AND `company_id`='{$company_id}' AND `branch_id`='{$branch_id}' AND `deleted_at` IS NULL ORDER BY `sort_by` ASC LIMIT 1");
-    if ($sql_category && mysqli_num_rows($sql_category) > 0) {
-        if ($obj = mysqli_fetch_object($sql_category)) {
-            $category_name = $obj->name;
-            if ($from <= $to) {
-                $checkExist = mysqli_query($db, "SELECT COUNT(l.id) AS total, YEAR(l.date) AS lead_year, c.name AS category_name FROM leads AS l INNER JOIN categories AS c ON c.id=l.category_id WHERE l.category_id='{$category_id}' AND l.company_id='{$company_id}' AND l.branch_id='{$branch_id}' AND l.deleted_at IS NULL AND c.deleted_at IS NULL AND YEAR(l.date) BETWEEN '{$from}' AND '{$to}' GROUP BY YEAR(l.date) ORDER BY YEAR(l.date) ASC");
-                if (mysqli_num_rows($checkExist) > 0) {
-                    while ($result = mysqli_fetch_object($checkExist)) {
-                        $data[$result->lead_year] = $result->total;
-                    }
-                }
-
-                for ($y = $from; $y <= $to; $y++) {
-                    if (array_key_exists($y, $data)) {
-                        $return[] = [(int)$y, (int)$data[$y]];
-                    } else {
-                        $return[] = [(int)$y, 0];
-                    }
-                }
-            }
-
-            echo json_encode(['RangeStart' => $from, 'RangeEnd' => $to, 'Category' => $category_name, 'data' => $return]);
-        }
+    } else {
+        echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
     }
 }
 
@@ -144,12 +117,55 @@ if (isset($_POST['yearlyLeadsChart'])) {
                     }
                     $return[] = $setArray;
                 }
-                echo json_encode(['return' => $return, 'years' => array_unique($years)]);
+                echo json_encode(["code" => 200, 'return' => $return, 'years' => array_unique($years)]);
+            } else {
+                echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
             }
+        } else {
+            echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
         }
+    } else {
+        echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">"From" should less than "To".</div></div>']);
     }
-
 }
 
+if (isset($_POST['singleLeadChart'])) {
+    $object = (object)$_POST['singleLeadChart'];
+    $from = $object->RangeStart;
+    $to = $object->RangeEnd;
+    $category_id = $object->CategoryFilter;
+    $category_name = '';
+    $data = $return = [];
+
+    $sql_category = mysqli_query($db, "SELECT `name` FROM `categories` WHERE `id`='{$category_id}' AND `company_id`='{$company_id}' AND `branch_id`='{$branch_id}' AND `deleted_at` IS NULL ORDER BY `sort_by` ASC LIMIT 1");
+    if ($sql_category && mysqli_num_rows($sql_category) > 0) {
+        if ($obj = mysqli_fetch_object($sql_category)) {
+            $category_name = $obj->name;
+            if ($from <= $to) {
+                $checkExist = mysqli_query($db, "SELECT COUNT(l.id) AS total, YEAR(l.date) AS lead_year, c.name AS category_name FROM leads AS l INNER JOIN categories AS c ON c.id=l.category_id WHERE l.category_id='{$category_id}' AND l.company_id='{$company_id}' AND l.branch_id='{$branch_id}' AND l.deleted_at IS NULL AND c.deleted_at IS NULL AND YEAR(l.date) BETWEEN '{$from}' AND '{$to}' GROUP BY YEAR(l.date) ORDER BY YEAR(l.date) ASC");
+                if (mysqli_num_rows($checkExist) > 0) {
+                    while ($result = mysqli_fetch_object($checkExist)) {
+                        $data[$result->lead_year] = $result->total;
+                    }
+                    for ($y = $from; $y <= $to; $y++) {
+                        if (array_key_exists($y, $data)) {
+                            $return[] = [(int)$y, (int)$data[$y]];
+                        } else {
+                            $return[] = [(int)$y, 0];
+                        }
+                    }
+                    echo json_encode(["code" => 200, 'RangeStart' => $from, 'RangeEnd' => $to, 'Category' => $category_name, 'data' => $return]);
+
+                } else {
+                    echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Leads not found.</div></div>']);
+                }
+            } else {
+                echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">"From" should less than "To".</div></div>']);
+            }
+        }
+    } else {
+        echo json_encode(["code" => 500, "data" => '<div class="col-md-12"><div class="alert alert-danger text-center">Selected category not exist.</div></div>']);
+    }
+}
 
 ?>
