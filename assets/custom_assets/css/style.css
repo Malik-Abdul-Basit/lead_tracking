@@ -898,6 +898,7 @@ span.e-input-group.e-control-wrapper.e-date-wrapper span.e-input-group-icon.e-da
 .HighChartWrapper {
     height: 450px;
     max-width: 100% !important;
+    position: relative;
 }
 
 .lead-card-details .small {
@@ -925,4 +926,13 @@ div.highcharts-data-table table th {
     border: 1px solid #000 !important;
     padding: 8px 12px;
     text-align: center;
+}
+
+.vertical-center {
+    margin: 0 15px;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: calc(100% - 30px);
 }
