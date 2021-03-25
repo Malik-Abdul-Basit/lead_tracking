@@ -57,8 +57,6 @@ include_once("../includes/mobile_menu.php");
                                                     $id = $designation_id = $department_id = $salary_grade_id = $salary_grade_detail_id = $is_hod = 0;
                                                     $name = $sort_by = '';
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
