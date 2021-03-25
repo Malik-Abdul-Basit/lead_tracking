@@ -65,8 +65,6 @@ include_once("../includes/mobile_menu.php");
                                                     $to = date('h:i A');
                                                     $sort_by = '';
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>

@@ -64,8 +64,6 @@ include_once("../includes/mobile_menu.php");
                                                     echo 'Add ' . ucwords(str_replace("_", " ", $page));
                                                     $id = $department_id = 0;
                                                 }
-                                                $TAttrs = ' type="text" class="form-control" ';
-                                                $onblur = ' onblur="change_color(this.value, this.id)" ';
                                                 ?>
                                             </h3>
                                         </div>
