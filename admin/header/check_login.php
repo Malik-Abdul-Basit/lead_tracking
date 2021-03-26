@@ -97,4 +97,13 @@ if (empty($_SESSION['company_id']) || empty($_SESSION['branch_id']) || empty($_S
     }
 }
 $checkLogin = TRUE;
+
+$DateInput = ' type="text" class="DatePicker e-input form-control" onfocus="openCalendar(event)" onclick="openCalendar(event)" maxlength="10" data-format="dd-MM-yyyy" ';//onkeypress="openCalendar(event)"
+$TAttrs = ' type="text" class="form-control" ';
+$NAttrs = ' type="number" class="form-control" ';
+$TouchSpin = ' type="text" class="form-control apply_touch_spin apply_max_length" ';
+$Select2 = ' class="form-control apply_select2" ';
+$onblur = ' onblur="change_color(this.value, this.id)" ';
+$disable = ' type="text" class="form-control form-control-solid" disabled readonly style="cursor: not-allowed" ';
+
 ?>

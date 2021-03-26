@@ -903,7 +903,6 @@ include_once("../includes/footer_script.php");
                             if (resPonse !== undefined && resPonse != '') {
                                 var obj = JSON.parse(resPonse);
                                 if (obj.code === 200 || obj.code === 405 || obj.code === 422) {
-                                    var title = '';
                                     if (obj.code === 422) {
                                         if (obj.errorField !== undefined && obj.errorField != '' && obj.errorDiv !== undefined && obj.errorDiv != '' && obj.errorMessage !== undefined && obj.errorMessage != '') {
                                             if (obj.errorField == 'user_id') {
